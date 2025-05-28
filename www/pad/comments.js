@@ -4,6 +4,7 @@
 
 define([
     'jquery',
+    'sanitize-html',
     'json.sortify',
     '/common/common-util.js',
     '/common/common-hash.js',
@@ -11,7 +12,7 @@ define([
     '/common/common-interface.js',
     '/common/common-ui-elements.js',
     '/customize/messages.js'
-], function($, Sortify, Util, Hash, h, UI, UIElements, Messages) {
+], function($, Sortify, Util, Hash, h, UI, UIElements, Messages, sanitizeHtml) {
     var Comments = {};
 
     /*
@@ -115,7 +116,7 @@ define([
             var data = others[id];
             Env.common.mailbox.sendTo("COMMENT_REPLY", {
                 channel: privateData.channel,
-                comment: data.comment.replace(/<[^>]*>/g, ''),
+                comment: sanitizeHtml(data.comment),
                 content: data.content
             }, {
                 channel: data.notifications,
